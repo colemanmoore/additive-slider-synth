@@ -1,4 +1,4 @@
-  
+
 /**
  * Additive synthesizer module
  * @author yyyounggg
@@ -22,7 +22,9 @@ var Synth = (function() {
       return voices;
     },
 
-    keyToFrequency: keyToFrequency
+    keyToFrequency: keyToFrequency,
+
+    initReverb: initReverb
   };
 
   var ctx = new (window.AudioContext || window.webkitAudioContext)();
@@ -42,14 +44,14 @@ var Synth = (function() {
     var i = 0;
     while (i < numberOfVoices) {
 
-      var osc = initVco({
-        partial: i+1
-      });
-
+      var osc = initVco();
       var gain = initVca();
+
       osc.connect(gain);
+      gain.connect(masterGain);
 
       voices.push({
+        partialIdx: i+1,
         partial: i+1,
         osc: osc,
         vca: gain
@@ -58,7 +60,6 @@ var Synth = (function() {
       i++;
     }
 
-    initReverb(voices);
     masterGain.connect(ctx.destination);
   }
 
@@ -95,14 +96,15 @@ var Synth = (function() {
   /**
    *
    */
-  function initReverb() {
+  function initReverb(irUrl) {
+    // wire it up
     convolver.connect(masterGain);
     voices.forEach(function(voice) {
       voice.vca.connect(convolver);
     });
 
     var ajaxRequest = new XMLHttpRequest();
-    ajaxRequest.open('GET', 'stalbans_a_mono.wav', true);
+    ajaxRequest.open('GET', irUrl, true);
     ajaxRequest.responseType = 'arraybuffer';
 
     ajaxRequest.onload = function() {
@@ -117,22 +119,21 @@ var Synth = (function() {
   }
 
 
+  function changeMasterGain(newVal) {
+    masterGain.gain.value = Math.min(Math.max(newVal, 0.0), 1.0);
+  }
+
   function changeNote(root) {
     voices.forEach(function(voice) {
       voice.osc.frequency.value = root * voice.partial;
     })
   }
-
-  function changeVoiceGain(slider, newVal) {
-    slider.vca.gain.value = newVal / voices.length;
+  function changeVoiceGain(voice, newVal) {
+    voice.vca.gain.value = newVal / voices.length;
   }
 
-  function changeMasterGain(newVal) {
-    masterGain.gain.value = Math.min(Math.max(newVal, 0.0), 1.0);
-  }
-
-  function changePartial() {
-
+  function changePartial(voice, cents) {
+    voice.osc.detune.value = cents;
   }
 
   var
@@ -155,9 +156,9 @@ var Synth = (function() {
       e: 329.6,
       f: 349.2,
       fsh: 370,
-      g: 392,
+      g: 392.0,
       gsh: 415.3,
-      a: 440,
+      a: 440.0,
       ash: 466.2,
       b: 493.9,
       c8: 523.2,

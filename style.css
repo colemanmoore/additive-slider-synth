@@ -1,25 +1,38 @@
 body {
     background: black;
+    text-align: center;
 }
 
 #spectrum-controls {
-    width: 640px;
+    width: 700px;
     height: 480px;
-    position: absolute;
-    left: 50%;
-    top: 20%;
-    margin-left: -320px;
+    margin: 100px auto;
+    position: relative;
+}
+
+div.slider-slot {
+    height: 300px;
+    width: 50px;
+    float: left;
+    margin-right: 2px;
 }
 
 div.slider {
-    height: 300px;
-    width: 40px;
-    margin-right: 10px;
-    float: left;
-    border: black 1px solid;
     background: #f49;
     transition: background 0.1s;
+    border: black 1px solid;
+    width: 40px;
+    height: 300px;
+    position: relative;
+    left: 5px;
 }
+
+div.can-move {
+    cursor: grab;
+    cursor: -moz-grab;
+    cursor: -webkit-grab;
+}
+
 
 div.slider.sparkling {
     background: #b3dbac;

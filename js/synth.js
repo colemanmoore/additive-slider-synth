@@ -34,10 +34,6 @@ var Synth = (function() {
     voices = [];
 
 
-  /**
-   *
-   * @param numberOfVoices
-   */
   function init(numberOfVoices) {
     voices = [];
 
@@ -64,11 +60,6 @@ var Synth = (function() {
   }
 
 
-  /**
-   *
-   * @param cfg
-   * @returns oscillator
-   */
   function initVco(cfg) {
     var
       o = ctx.createOscillator(),
@@ -81,10 +72,6 @@ var Synth = (function() {
     return o;
   }
 
-
-  /**
-   *
-   */
   function initVca() {
     var g = ctx.createGain();
     g.gain.value = 0.0;
@@ -92,10 +79,6 @@ var Synth = (function() {
     return g;
   }
 
-
-  /**
-   *
-   */
   function initReverb(irUrl) {
     // wire it up
     convolver.connect(masterGain);

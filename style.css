@@ -3,9 +3,14 @@ body {
     text-align: center;
 }
 
+#container {
+    display: flex;
+    flex-direction: column;
+    padding: 50px;
+}
+
 #spectrum-controls {
-    width: 700px;
-    height: 480px;
+    min-width: 700px;
     margin: 100px auto;
     position: relative;
 }
@@ -36,4 +41,11 @@ div.can-move {
 
 div.slider.sparkling {
     background: #b3dbac;
+}
+
+.hint {
+    color: #f49;
+    font-family: sans-serif;
+    letter-spacing: 3px;
+    font-size: 2rem;
 }

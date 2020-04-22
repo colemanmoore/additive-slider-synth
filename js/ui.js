@@ -2,8 +2,8 @@
  * Additive synth with slider harmonic controls and keyboard note control
  */
 
-Synth.init(13);
-Synth.initReverb('stalbans_a_mono.wav');
+Synth.init(16);
+// Synth.initReverb('stalbans_a_mono.wav');
 
 
 /* UI ********/
